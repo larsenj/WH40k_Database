@@ -25,10 +25,8 @@ CREATE TABLE areas (
     UNIQUE KEY(areaName)
 );
 
-CREATE TABLE theatreOfOperations(
-    id int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY(id)
-);
+INSERT INTO areas(areaName) values 
+("Cadia"), ("Macragge");
 
 CREATE TABLE chapters (
     id int NOT NULL AUTO_INCREMENT,
@@ -46,3 +44,14 @@ INSERT INTO chapters (chapterName, chapterPrimarch, loyalty) values
 ("Ultramarines", "Roboute Guilliman", "Imperium"),
 ("Thousand Sons", "Magnus the Red", "Chaos"),
 ("Death Guard", "Mortarion", "Chaos");
+
+CREATE TABLE theatreOfOperations(
+    area_id varchar(255) NOT NULL DEFAULT '',
+    chapter_id varchar(255) NOT NULL DEFAULT '',
+    PRIMARY KEY(area_id, chapter_id)
+);
+
+INSERT INTO theatreOfOperations(area_id, chapter_id) values
+((SELECT id FROM areas WHERE areaName='Cadia'), (SELECT id FROM chapters WHERE chapterName='Ultramarines')),
+((SELECT id FROM areas WHERE areaName='Cadia'), (SELECT id FROM chapters WHERE chapterName='Death Guard')),
+((SELECT id FROM areas WHERE areaName='Macragge'), (SELECT id FROM chapters WHERE chapterName='Ultramarines'));
